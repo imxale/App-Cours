@@ -8,7 +8,7 @@
 import Foundation
 
 struct User {
-    var id: Int
+    var id = UUID()
     var username: String
     var email: String
     var password: String

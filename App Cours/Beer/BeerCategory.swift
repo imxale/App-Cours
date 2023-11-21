@@ -7,6 +7,7 @@
 
 import Foundation
 
-struct BeerCategory {
+struct BeerCategory: Hashable {
+    var id = UUID()
     var name: String
 }

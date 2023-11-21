@@ -7,6 +7,7 @@
 
 import Foundation
 
-struct BeerStyles {
+struct BeerStyles: Hashable {
+    var id = UUID()
     var name: String
 }
