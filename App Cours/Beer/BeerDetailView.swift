@@ -48,6 +48,7 @@ struct BeerDetailView: View {
                             NavigationLink(destination: UserDetailView(user: beer.created_by)) {
                                 Text(beer.created_by.username)
                             }
+                            Text(beer.createdAt.formatted(.dateTime.day().month().year()))
                         }
                     }
                     .navigationTitle(beer.name)

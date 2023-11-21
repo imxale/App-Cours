@@ -12,9 +12,9 @@ struct ContentView: View {
     @State var user2 = User(username: "JaneSmith", email: "jane@example.com", password: "test", firstname: "Jane", lastname: "Smith")
         
     var body: some View {
-        NavigationView {
-            BeerTableView()
-        }
+//        NavigationView {
+//            BeerTableView()
+//        }
         TabBar()
     }
 }
