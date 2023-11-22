@@ -10,9 +10,20 @@ import SwiftUI
 struct TabBar: View {
     var body: some View {
         TabView {
+            Home()
+                .tabItem {
+                    Label("Home", systemImage: "house.fill")
+                }
+            
             BeerTableView()
                 .tabItem {
                     Label("Beer", systemImage: "list.bullet.rectangle.portrait")
+                        .font(.system(size: 50))
+                }
+            
+            ConsumptionAdd()
+                .tabItem {
+                    Label("", systemImage: "plus.circle.fill")
                 }
             
             SearchView()

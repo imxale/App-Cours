@@ -17,6 +17,7 @@ struct BeerView: View {
                         switch phase {
                         case .empty:
                             ProgressView()
+//                            EmptyView()
                         case .success(let image):
                             image.resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -40,8 +41,8 @@ struct BeerView: View {
                 }
                 .padding(.vertical, 8)
                 VStack(alignment: .leading) {
-                    Text("ABV : \(formatedFloat(value:beer.abv))")
-                    Text("IBU : \(formatedFloat(value:beer.ibu))")
+                    Text("ABV : \(beer.formatedABV())")
+                    Text("IBU : \(beer.formatedIBU())")
                     Text(beer.style.name)
                 }.background(.red)
             }

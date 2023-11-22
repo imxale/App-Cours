@@ -10,9 +10,7 @@ import SwiftUI
 struct BeerTableView: View {
     
     @State var addBeer = false
-    
-    @State var addBeerName: String = ""
-    @State var addBeerDescription: String = ""
+    @State var editBeer = false
     
     @State var addBeerStyles: [BeerStyles] = [
         BeerStyles(
@@ -22,16 +20,10 @@ struct BeerTableView: View {
             name: "Stout"
         )
     ]
-    @State var selectedBeerStyle: BeerStyles = BeerStyles(name: "IPA")
     
-    @State var selectedBeerCategory: BeerCategory = BeerCategory(name: "Craft")
-    @State var addBeerCategory: [BeerCategory] = [BeerCategory(
+    @State var addBeerCategories: [BeerCategory] = [BeerCategory(
         name: "Craft"
     )]
-    
-    @State var addBeerABV: Float = 0
-    @State var addBeerIBU: Float = 0
-    @State var addBeerURL: URL
     
     @State var addBeerCreated_by: User = User(
         username: "johnDoe",
@@ -40,24 +32,44 @@ struct BeerTableView: View {
         firstname: "John",
         lastname: "Doe"
     )
-    
-    @State var addBeerCreatedAt: Date = Date()
-    
+        
     @State var listBeers = [Beer]()
+    
+    @State var showingPopup = false
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(
-                    listBeers
-                ) { beer in
-                    BeerView(
-                        beer: beer
-                    )
+                ForEach(listBeers) { beer in
+                    BeerView(beer: beer)
+                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                            Button {
+                                
+                            } label: {
+                                Label("Like", systemImage: "star")
+                            }
+                            .tint(.green)
+                        }
+                        .contentShape(Rectangle())
+                            .contextMenu {
+                                Button {
+                                    self.editBeer.toggle()
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }
+                            }
+                            .sheet(isPresented: $editBeer) {
+//                                BeerFormEdit(
+//                                    editBeer: editBeer,
+//                                    showingPopup: showingPopup,
+//                                    addBeerStyles: addBeerStyles,
+//                                    addBeerCategories: addBeerCategories,
+//                                    listBeers: listBeers,
+//                                    beer: beer
+//                                )
+                        }
                 }
-                .onDelete { IndexSet in listBeers.remove(
-                    atOffsets: IndexSet
-                )
+                .onDelete { IndexSet in listBeers.remove(atOffsets: IndexSet)
                 }
             }
             .navigationTitle(
@@ -67,127 +79,21 @@ struct BeerTableView: View {
                 trailing: Button(action: {
                     self.addBeer.toggle()
                 },
-                                 label: { Image(
-                                    systemName: "plus.square"
-                                 )
-                                 }
-                                )
+                 label: { Image(
+                    systemName: "plus.square"
+                 )
+                 }
+                )
             )
             .sheet(
                 isPresented: $addBeer
             ) {
-                VStack {
-                    HStack {
-                        Text(
-                            "Name:"
-                        )
-                        TextField(
-                            "Beer name",
-                            text: self.$addBeerName
-                        )
-                    }
-                    HStack {
-                        Text(
-                            "Description:"
-                        )
-                        TextField(
-                            "Beer description",
-                            text: self.$addBeerDescription
-                        )
-                    }
-                    HStack {
-                        Text(
-                            "Style:"
-                        )
-                        Picker(
-                            "Style",
-                            selection: $selectedBeerStyle
-                        ) {
-                            ForEach(
-                                addBeerStyles,
-                                id: \.self
-                            ) {
-                                Text(
-                                    $0.name
-                                )
-                            }
-                        }
-                    }
-                    HStack {
-                        Text(
-                            "Category:"
-                        )
-                        Picker(
-                            "Category",
-                            selection: $selectedBeerCategory
-                        ) {
-                            ForEach(
-                                addBeerCategory,
-                                id: \.self
-                            ) {
-                                Text(
-                                    $0.name
-                                )
-                            }
-                        }
-                    }
-                    HStack {
-                        Text(
-                            "ABV:"
-                        )
-                        TextField(
-                            "Beer ABV",
-                            value: self.$addBeerABV,
-                            format: .number
-                        )
-                    }
-                    HStack {
-                        Text(
-                            "IBU:"
-                        )
-                        TextField(
-                            "Beer IBU",
-                            value: self.$addBeerIBU,
-                            format: .number
-                        )
-                    }
-                    HStack {
-                        Text(
-                            "Photo:"
-                        )
-                        TextField(
-                            "Photo url",
-                            value: self.$addBeerURL,
-                            format: .url
-                        )
-                    }
-                    Button(action: {
-                        listBeers.append(
-                            Beer(
-                                name: addBeerName,
-                                description: addBeerDescription,
-                                style: selectedBeerStyle,
-                                category: selectedBeerCategory,
-                                abv: addBeerABV,
-                                ibu: addBeerIBU,
-                                photo: addBeerURL,
-                                created_by: addBeerCreated_by,
-                                createdAt: addBeerCreatedAt
-                            )
-                        )
-                        
-                        self.addBeer.toggle()
-                        
-                        // Reset Values
-                        //                        self.addBeerName = ""
-                    },
-                           label: {
-                        Text(
-                            "Add"
-                        )
-                    })
-                }.padding(
-                    20
+                BeerFormAdd(
+                    addBeer: $addBeer,
+                    showingPopup: $showingPopup,
+                    addBeerStyles: addBeerStyles,
+                    addBeerCategories: addBeerCategories,
+                    listBeers: listBeers
                 )
             }
         }

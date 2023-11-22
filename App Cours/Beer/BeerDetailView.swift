@@ -40,9 +40,9 @@ struct BeerDetailView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                                 .padding()
-                            Text("ABV : \(formatedFloat(value:beer.abv))")
+                            Text("ABV : \(beer.formatedABV())")
                                 .background(.red)
-                            Text("IBU : \(formatedFloat(value:beer.ibu))")
+                            Text("IBU : \(beer.formatedIBU())")
                             Text(beer.style.name)
                             Text(beer.category.name)
                             NavigationLink(destination: UserDetailView(user: beer.created_by)) {
