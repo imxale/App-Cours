@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class Beer: Identifiable {
     var id = UUID()
@@ -56,17 +57,25 @@ class Beer: Identifiable {
 class BeerListViewModel: ObservableObject {
     @Published var listBeers = [Beer]()
     
+//    private var cancellables: Set<AnyCancellable> = []
+//
+//    init() {
+//        $listBeers
+//            .receive(on: DispatchQueue.main)
+//            .sink { _ in self.objectWillChange.send() }
+//            .store(in: &cancellables)
+//    }
+    
     func updateBeer(_ beer: Beer) {
         if let index = listBeers.firstIndex(where: { $0.id == beer.id }) {
             listBeers[index] = beer
             objectWillChange.send()
         }
+        print(listBeers[0].name)
     }
     
     func addBeer(_ newBeer: Beer) {
-        print(newBeer.name)
         listBeers.append(newBeer)
         objectWillChange.send()
-        print(listBeers)
     }
 }

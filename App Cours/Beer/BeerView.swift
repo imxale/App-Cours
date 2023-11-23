@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BeerView: View {
-    let beer: Beer
+    var beer: Beer
     var body: some View {
         NavigationLink(destination: BeerDetailView(beer: beer)) {
             VStack {

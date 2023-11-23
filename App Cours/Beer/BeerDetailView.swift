@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BeerDetailView: View {
-    let beer: Beer
+    var beer: Beer
     var body: some View {
         GeometryReader { proxy in
                     ZStack {
@@ -36,7 +36,7 @@ struct BeerDetailView: View {
                             Text(beer.name)
                                 .font(.largeTitle)
                                 .padding(.bottom, 10)
-                            Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis massa et eros volutpat posuere a vel nisl.")
+                            Text(beer.description)
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                                 .padding()
