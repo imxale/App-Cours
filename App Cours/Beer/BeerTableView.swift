@@ -37,6 +37,8 @@ struct BeerTableView: View {
     
     @State var showingPopup = false
     
+    @State var selectedBeer:Beer?
+    
     var body: some View {
         NavigationView {
             List {
@@ -54,19 +56,20 @@ struct BeerTableView: View {
                             .contextMenu {
                                 Button {
                                     self.editBeer.toggle()
+                                    selectedBeer = beer
                                 } label: {
                                     Label("Edit", systemImage: "pencil")
                                 }
                             }
                             .sheet(isPresented: $editBeer) {
-//                                BeerFormEdit(
-//                                    editBeer: editBeer,
-//                                    showingPopup: showingPopup,
-//                                    addBeerStyles: addBeerStyles,
-//                                    addBeerCategories: addBeerCategories,
-//                                    listBeers: listBeers,
-//                                    beer: beer
-//                                )
+                                BeerFormEdit(
+                                    editBeer: $editBeer,
+                                    showingPopup: $showingPopup,
+                                    addBeerStyles: addBeerStyles,
+                                    addBeerCategories: addBeerCategories,
+                                    listBeers: $listBeers,
+                                    beer: selectedBeer ?? beer
+                                )
                         }
                 }
                 .onDelete { IndexSet in listBeers.remove(atOffsets: IndexSet)
@@ -91,22 +94,15 @@ struct BeerTableView: View {
                 BeerFormAdd(
                     addBeer: $addBeer,
                     showingPopup: $showingPopup,
+//                    addBeerName: "", 
                     addBeerStyles: addBeerStyles,
+                    selectedBeerStyle: addBeerStyles.first!,
                     addBeerCategories: addBeerCategories,
-                    listBeers: listBeers
+                    selectedBeerCategory: addBeerCategories.first!,
+                    addBeerCreated_by: $addBeerCreated_by,
+                    listBeers: $listBeers
                 )
             }
         }
     }
 }
-
-//struct BeerTableView_Preview: PreviewProvider {
-//    static var previews: some View {
-//        BeerTableView()
-//    }
-//}
-
-//
-//#Preview {
-//    BeerTableView()
-//}

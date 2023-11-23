@@ -9,30 +9,17 @@ import SwiftUI
 
 struct BeerFormEdit: View {
     
-    var editBeer:Bool
+    @Binding var editBeer:Bool
     @Binding var showingPopup:Bool
 
-    @Binding private var addBeerName:String?
-    private var addBeerDescription:String?
-
-    private var selectedBeerStyle:BeerStyles?
     let addBeerStyles:[BeerStyles]
     
-    private var selectedBeerCategory:BeerCategory?
     let addBeerCategories:[BeerCategory]
     
-    private var addBeerABV:Float?
-    private var addBeerIBU:Float?
+    @Binding var listBeers:[Beer]
     
-    private var addBeerURL:URL?
-    
-    private var addBeerCreated_by:User?
-    
-    private var addBeerCreatedAt:Date?
-    
-    private var listBeers:[Beer]
-    
-    let beer:Beer
+    @State var beer:Beer
+//    @State var idBeer:UUID
     
     var body: some View {
         VStack {
@@ -40,48 +27,39 @@ struct BeerFormEdit: View {
                 .font(.title)
             Form {
                 Section(header: Text("Beer Information")) {
-                    TextField("Beer name", text: $addBeerName)
-//                    TextField("Beer description", text: beer.description)
-//                    Picker("Style", selection: beer.style) {
-//                        ForEach(addBeerStyles) {
-//                            Text($0.name)
-//                        }
-//                    }
-//                    Picker("Category", selection: beer.category) {
-//                        ForEach(addBeerCategories) {
-//                            Text($0.name)
-//                        }
-//                    }
-//                    TextField("ABV", value:beer?.abv, format:.number)
-//                    TextField("IBU", value:beer?.ibu, format:.number)
-//                    TextField("Photo url", value: beer?.photo, format: .url)
+                    TextField("Beer name", text: $beer.name)
+                    TextField("Beer description", text: $beer.description)
+                    Picker("Style", selection: $beer.style) {
+                        ForEach(addBeerStyles, id: \.self) { style in
+                            Text(style.name)
+                        }
+                    }
+                    Picker("Category", selection: $beer.category) {
+                        ForEach(addBeerCategories, id: \.self) { category in
+                            Text(category.name)
+                        }
+                    }
+                    TextField("ABV", value:$beer.abv, format:.number)
+                    TextField("IBU", value:$beer.ibu, format:.number)
+                    TextField("Photo url", value: $beer.photo, format: .url)
                 }
                 Section {
                     Button("Save") {
-//                        if !beer.name.isEmpty
-//                            && ((beer.description?.isEmpty) == nil)
-//                            && beer.abv != 0
-//                            && beer.ibu != 0
-//                            && beer.photo != nil {
-//                            listBeers.append(
-//                                beer
-//                                Beer(
-//                                    name: addBeerName,
-//                                    description: addBeerDescription,
-//                                    style: selectedBeerStyle,
-//                                    category: selectedBeerCategory,
-//                                    abv: addBeerABV,
-//                                    ibu: addBeerIBU,
-//                                    photo: addBeerURL,
-//                                    created_by: addBeerCreated_by,
-//                                    createdAt: addBeerCreatedAt
-//                                )
-//                            )
+                        if !beer.name.isEmpty
+                            && !addBeerStyles.isEmpty
+                            && !addBeerCategories.isEmpty
+                            && beer.abv != 0
+                            && beer.ibu != 0
+                            && beer.photo != nil {
+//                            listBeers.append(beer)
+                            if let index = listBeers.firstIndex(where: { $0.id == beer.id }) {
+                                listBeers[index] = beer
+                            }
                             
-//                            self.editBeer.toggle()
-//                        } else {
-//                            showingPopup = true
-//                        }
+                            self.editBeer.toggle()
+                        } else {
+                            showingPopup = true
+                        }
                     }
                     .alert("Error", isPresented: $showingPopup) {
                         Text("ghghsfg")

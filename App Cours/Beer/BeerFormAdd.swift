@@ -12,36 +12,25 @@ struct BeerFormAdd: View {
     @Binding var addBeer:Bool
     @Binding var showingPopup:Bool
 
-    @Binding var addBeerName:String?
-//    private var addBeerDescription:String?
+    @State var addBeerName:String = ""
+    @State var addBeerDescription:String = ""
     
-//    private var selectedBeerStyle:BeerStyles
     let addBeerStyles:[BeerStyles]
+    @State var selectedBeerStyle:BeerStyles
     
-//    private var selectedBeerCategory:BeerCategory
     let addBeerCategories:[BeerCategory]
+    @State var selectedBeerCategory: BeerCategory
     
-//    private var addBeerABV:Float
-//    private var addBeerIBU:Float
+    @State var addBeerABV:Float = 0
+    @State var addBeerIBU:Float = 0
     
-//    private var addBeerURL:URL!
+    @State var addBeerURL:URL! = URL(string:"https://biereratz.fr/wp-content/uploads/2022/08/RATZ-BL33.png.webp")
     
-//    private var addBeerCreated_by:User
+    @Binding var addBeerCreated_by:User
     
-//    private var addBeerCreatedAt:Date
+    @State var addBeerCreatedAt:Date = Date()
     
-    var listBeers:[Beer]
-    
-//    let beer:Beer?
-    
-    init(addBeer: Bool, showingPopup: Bool, addBeerName: String? = nil, addBeerStyles: [BeerStyles], addBeerCategories: [BeerCategory], listBeers: [Beer]) {
-        self.addBeer = addBeer
-        self.showingPopup = showingPopup
-        self.addBeerName = addBeerName
-        self.addBeerStyles = addBeerStyles
-        self.addBeerCategories = addBeerCategories
-        self.listBeers = listBeers
-    }
+    @Binding var listBeers:[Beer]
     
     var body: some View {
         VStack {
@@ -50,45 +39,47 @@ struct BeerFormAdd: View {
             Form {
                 Section(header: Text("Beer Information")) {
                     TextField("Beer name", text: $addBeerName)
-//                    TextField("Beer description", text: addBeerDescription)
-//                    Picker("Style", selection: selectedBeerStyle.name) {
-//                        ForEach(addBeerStyles) {
-//                            Text($0.name)
-//                        }
-//                    }
-//                    Picker("Category", selection: selectedBeerCategory.name) {
-//                        ForEach(addBeerCategories) {
-//                            Text($0.name)
-//                        }
-//                    }
-//                    TextField("ABV", value:addBeerABV, format:.number)
-//                    TextField("IBU", value:addBeerIBU, format:.number)
-//                    TextField("Photo url", value: addBeerURL, format: .url)
+                    TextField("Beer description", text: $addBeerDescription)
+                    Picker("Style", selection: $selectedBeerStyle) {
+                        ForEach(addBeerStyles, id: \.self) { style in
+                            Text(style.name)
+                                .tag(style)
+                        }
+                    }
+                    Picker("Category", selection: $selectedBeerCategory) {
+                        ForEach(addBeerCategories, id: \.id) { category in
+                            Text(category.name)
+                                .tag(category)
+                        }
+                    }
+                    TextField("ABV", value:$addBeerABV, format:.number)
+                    TextField("IBU", value:$addBeerIBU, format:.number)
+                    TextField("Photo url", value: $addBeerURL, format: .url)
                 }
                 Section {
                     Button("Save") {
-//                        if !addBeerName.isEmpty
-//                            && !addBeerDescription.isEmpty
-//                            && !addBeerStyles.isEmpty
-//                            && !addBeerCategories.isEmpty
-//                            && addBeerABV != 0
-//                            && addBeerIBU != 0
-//                            && addBeerURL != nil {
-//                            listBeers.append(
-//                                Beer(
-//                                    name: addBeerName,
-//                                    description: addBeerDescription,
-//                                    style: selectedBeerStyle,
-//                                    category: selectedBeerCategory,
-//                                    abv: addBeerABV,
-//                                    ibu: addBeerIBU,
-//                                    photo: addBeerURL,
-//                                    created_by: addBeerCreated_by,
-//                                    createdAt: addBeerCreatedAt
-//                                )
-//                            )
-//                            
-//                            self.addBeer.toggle()
+//                        print($selectedBeerStyle.name)
+                        if !addBeerName.isEmpty
+                            && !addBeerStyles.isEmpty
+                            && !addBeerCategories.isEmpty
+                            && addBeerABV != 0
+                            && addBeerIBU != 0
+                            && addBeerURL != nil {
+                            listBeers.append(
+                                Beer(
+                                    name: addBeerName,
+                                    description: addBeerDescription,
+                                    style: selectedBeerStyle,
+                                    category: selectedBeerCategory,
+                                    abv: addBeerABV,
+                                    ibu: addBeerIBU,
+                                    photo: addBeerURL,
+                                    created_by: addBeerCreated_by,
+                                    createdAt: addBeerCreatedAt
+                                )
+                            )
+                            
+                            self.addBeer.toggle()
 //                            
 //                            // Reset Values
 //                            self.addBeerName = ""
@@ -96,13 +87,11 @@ struct BeerFormAdd: View {
 //                            self.addBeerABV = Float()
 //                            self.addBeerIBU = Float()
 //                            self.addBeerURL = URL(string: "")
-//                        } else {
+                        } else {
 //                            showingPopup.toggle()
-//                        }
+                            Alert(title: Text("Error"))
+                        }
                     }
-//                    .alert("Error", isPresented: $showingPopup) {
-//                        showingPopup.toggle()
-//                    }
                 }
             }
             .cornerRadius(10)
@@ -110,7 +99,3 @@ struct BeerFormAdd: View {
         .padding(20)
     }
 }
-
-//#Preview {
-//    BeerAdd()
-//}

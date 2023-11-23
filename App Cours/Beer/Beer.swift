@@ -10,7 +10,7 @@ import Foundation
 class Beer: Identifiable {
     var id = UUID()
     var name: String
-    var description: String?
+    var description: String = ""
     var style: BeerStyles
     var category: BeerCategory
 //    var style: String
@@ -26,7 +26,7 @@ class Beer: Identifiable {
     var createdAt: Date
     var updatedAt: Date?
     
-    init(id: UUID = UUID(), name: String, description: String? = nil, style: BeerStyles, category: BeerCategory, abv: Float, ibu: Float, photo: URL? = nil, created_by: User, approve_by: User? = nil, update_by: User? = nil, createdAt: Date, updatedAt: Date? = nil) {
+    init(id: UUID = UUID(), name: String, description: String, style: BeerStyles, category: BeerCategory, abv: Float, ibu: Float, photo: URL? = nil, created_by: User, approve_by: User? = nil, update_by: User? = nil, createdAt: Date, updatedAt: Date? = nil) {
         self.id = id
         self.name = name
         self.description = description
