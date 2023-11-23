@@ -34,7 +34,7 @@ struct BeerTableView: View {
     )
         
 //    @State var listBeers = [Beer]()
-    @ObservedObject private var beerListViewModel = BeerListViewModel()
+    @ObservedObject var beerListViewModel:BeerListViewModel
     
     @State var showingPopup = false
     
@@ -72,14 +72,14 @@ struct BeerTableView: View {
                                         .font(.headline)
                                         .lineLimit(1)
                                     Text(beer.description ?? "")
-                                }.background(.purple)
+                                }
                             }
                             .padding(.vertical, 8)
                             VStack(alignment: .leading) {
                                 Text("ABV : \(beer.formatedABV())")
                                 Text("IBU : \(beer.formatedIBU())")
                                 Text(beer.style.name)
-                            }.background(.red)
+                            }
                         }
                     }
                         .swipeActions(edge: .leading, allowsFullSwipe: true) {

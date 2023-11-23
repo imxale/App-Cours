@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TabBar: View {
+    @ObservedObject private var beerListViewModel = BeerListViewModel()
+
     var body: some View {
         TabView {
             Home()
@@ -15,12 +17,12 @@ struct TabBar: View {
                     Label("Home", systemImage: "house.fill")
                 }
             
-            BeerTableView()
+            BeerTableView(beerListViewModel: beerListViewModel)
                 .tabItem {
                     Label("Beer", systemImage: "list.bullet.rectangle.portrait")
                 }
             
-            ConsumptionListView(consumptionListViewModel: ConsumptionListViewModel(), beerListViewModel: BeerListViewModel())
+            ConsumptionListView(consumptionListViewModel: ConsumptionListViewModel(), beerListViewModel: beerListViewModel)
                 .tabItem {
                     Label("Consumption", systemImage: "plus.circle.fill")
                 }

@@ -41,7 +41,6 @@ struct BeerDetailView: View {
                                 .foregroundColor(.gray)
                                 .padding()
                             Text("ABV : \(beer.formatedABV())")
-                                .background(.red)
                             Text("IBU : \(beer.formatedIBU())")
                             Text(beer.style.name)
                             Text(beer.category.name)
