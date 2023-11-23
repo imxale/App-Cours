@@ -122,7 +122,7 @@ struct BeerTableView: View {
                     self.addBeer.toggle()
                 },
                  label: { Image(
-                    systemName: "plus.square"
+                    systemName: "plus"
                  )
                  }
                 )

@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class Beer: Identifiable {
+class Beer: Hashable, Identifiable {
     var id = UUID()
     var name: String
     var description: String = ""
@@ -26,6 +26,14 @@ class Beer: Identifiable {
 //    var approve_by: Int?
     var createdAt: Date
     var updatedAt: Date?
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: Beer, rhs: Beer) -> Bool {
+        return lhs.id == rhs.id
+    }
     
     init(id: UUID = UUID(), name: String, description: String, style: BeerStyles, category: BeerCategory, abv: Float, ibu: Float, photo: URL? = nil, created_by: User, approve_by: User? = nil, update_by: User? = nil, createdAt: Date, updatedAt: Date? = nil) {
         self.id = id

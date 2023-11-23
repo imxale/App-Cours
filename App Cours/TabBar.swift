@@ -20,9 +20,9 @@ struct TabBar: View {
                     Label("Beer", systemImage: "list.bullet.rectangle.portrait")
                 }
             
-            ConsumptionAdd()
+            ConsumptionListView(consumptionListViewModel: ConsumptionListViewModel(), beerListViewModel: BeerListViewModel())
                 .tabItem {
-                    Label("", systemImage: "plus.circle.fill")
+                    Label("Consumption", systemImage: "plus.circle.fill")
                 }
             
             SearchView()
