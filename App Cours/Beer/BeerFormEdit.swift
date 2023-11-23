@@ -9,6 +9,8 @@ import SwiftUI
 
 struct BeerFormEdit: View {
     
+    var updateAction: (Beer) -> Void
+    
     @Binding var editBeer:Bool
     @Binding var showingPopup:Bool
 
@@ -16,10 +18,11 @@ struct BeerFormEdit: View {
     
     let addBeerCategories:[BeerCategory]
     
-    @Binding var listBeers:[Beer]
+//    @State var listBeers:[Beer]
     
     @State var beer:Beer
-//    @State var idBeer:UUID
+    
+//    @ObservedObject private var beerListViewModel = BeerListViewModel()
     
     var body: some View {
         VStack {
@@ -52,9 +55,10 @@ struct BeerFormEdit: View {
                             && beer.ibu != 0
                             && beer.photo != nil {
 //                            listBeers.append(beer)
-                            if let index = listBeers.firstIndex(where: { $0.id == beer.id }) {
-                                listBeers[index] = beer
-                            }
+//                            if let index = listBeers.firstIndex(where: { $0.id == beer.id }) {
+//                                listBeers[index] = beer
+//                            }
+                            updateAction(beer)
                             
                             self.editBeer.toggle()
                         } else {

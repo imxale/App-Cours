@@ -9,6 +9,8 @@ import SwiftUI
 
 struct BeerFormAdd: View {
     
+//    var addAction: (Beer) -> Void
+    
     @Binding var addBeer:Bool
     @Binding var showingPopup:Bool
 
@@ -30,7 +32,11 @@ struct BeerFormAdd: View {
     
     @State var addBeerCreatedAt:Date = Date()
     
-    @Binding var listBeers:[Beer]
+//    @Binding var listBeers:[Beer]
+//    @ObservedObject private var beerListViewModel = BeerListViewModel()
+    @ObservedObject var beerListViewModel: BeerListViewModel
+
+
     
     var body: some View {
         VStack {
@@ -65,7 +71,20 @@ struct BeerFormAdd: View {
                             && addBeerABV != 0
                             && addBeerIBU != 0
                             && addBeerURL != nil {
-                            listBeers.append(
+//                            BeerListViewModel.listBeers.append(
+//                                Beer(
+//                                    name: addBeerName,
+//                                    description: addBeerDescription,
+//                                    style: selectedBeerStyle,
+//                                    category: selectedBeerCategory,
+//                                    abv: addBeerABV,
+//                                    ibu: addBeerIBU,
+//                                    photo: addBeerURL,
+//                                    created_by: addBeerCreated_by,
+//                                    createdAt: addBeerCreatedAt
+//                                )
+//                            )
+                            beerListViewModel.addBeer(
                                 Beer(
                                     name: addBeerName,
                                     description: addBeerDescription,

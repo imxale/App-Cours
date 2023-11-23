@@ -33,7 +33,8 @@ struct BeerTableView: View {
         lastname: "Doe"
     )
         
-    @State var listBeers = [Beer]()
+//    @State var listBeers = [Beer]()
+    @ObservedObject private var beerListViewModel = BeerListViewModel()
     
     @State var showingPopup = false
     
@@ -42,7 +43,7 @@ struct BeerTableView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(listBeers) { beer in
+                ForEach(beerListViewModel.listBeers) { beer in
                     BeerView(beer: beer)
                         .swipeActions(edge: .leading, allowsFullSwipe: true) {
                             Button {
@@ -63,16 +64,17 @@ struct BeerTableView: View {
                             }
                             .sheet(isPresented: $editBeer) {
                                 BeerFormEdit(
+                                    updateAction: updateBeer,
                                     editBeer: $editBeer,
                                     showingPopup: $showingPopup,
                                     addBeerStyles: addBeerStyles,
                                     addBeerCategories: addBeerCategories,
-                                    listBeers: $listBeers,
+//                                    listBeers: listBeers,
                                     beer: selectedBeer ?? beer
                                 )
                         }
                 }
-                .onDelete { IndexSet in listBeers.remove(atOffsets: IndexSet)
+                .onDelete { IndexSet in beerListViewModel.listBeers.remove(atOffsets: IndexSet)
                 }
             }
             .navigationTitle(
@@ -100,9 +102,15 @@ struct BeerTableView: View {
                     addBeerCategories: addBeerCategories,
                     selectedBeerCategory: addBeerCategories.first!,
                     addBeerCreated_by: $addBeerCreated_by,
-                    listBeers: $listBeers
+                    beerListViewModel: beerListViewModel
+//                    listBeers: $listBeers
                 )
             }
         }
+    }
+    
+    func updateBeer(beer: Beer) {
+        beerListViewModel.updateBeer(beer)
+        beerListViewModel.objectWillChange.send()
     }
 }
